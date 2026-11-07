@@ -1,5 +1,5 @@
 // Service worker de IronPulse. Guarda la interfaz para que la app abra sin conexión.
-const CACHE_ACTUAL = "ironpulse-cache-v3";
+const CACHE_ACTUAL = "ironpulse-cache-v4";
 
 const RECURSOS = [
     "./",
@@ -9,6 +9,7 @@ const RECURSOS = [
     "./js/ajustes.js",
     "./js/almacen.js",
     "./js/app.js",
+    "./js/cabecera.js",
     "./js/ejercicios.js",
     "./js/entrenos.js",
     "./js/estandares.js",

@@ -269,11 +269,16 @@ export function guardarDatos(datos) {
     try {
         const datosConVersion = { ...datos, version: VERSION_DATOS };
         localStorage.setItem(CLAVE_DATOS, JSON.stringify(datosConVersion));
-        return true;
     } catch (error) {
         console.warn("No se pudieron guardar los datos en este dispositivo.", error);
         return false;
     }
+
+    if (typeof document !== "undefined") {
+        document.dispatchEvent(new CustomEvent("ironpulse:datos-actualizados"));
+    }
+
+    return true;
 }
 
 export function actualizarDatos(modificador) {

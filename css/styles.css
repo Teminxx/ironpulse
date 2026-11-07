@@ -32,8 +32,9 @@ body {
     min-height: 100%;
     margin: 0;
     background:
-        radial-gradient(circle at 82% -10%, rgba(0, 230, 118, 0.10), transparent 30%),
-        radial-gradient(circle at 8% 24%, rgba(255, 107, 0, 0.06), transparent 34%),
+        radial-gradient(circle at 88% -6%, rgba(0, 230, 118, 0.18), transparent 34%),
+        radial-gradient(circle at 4% 16%, rgba(255, 107, 0, 0.10), transparent 36%),
+        radial-gradient(circle at 50% 118%, rgba(0, 230, 118, 0.07), transparent 42%),
         var(--fondo);
     color: var(--texto);
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -102,57 +103,85 @@ svg {
 }
 
 .cabecera {
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 20;
+    display: grid;
+    gap: 13px;
+    padding:
+        calc(env(safe-area-inset-top) + 15px)
+        16px
+        14px;
+    background:
+        radial-gradient(120% 150% at 88% -25%, rgba(0, 230, 118, 0.18), transparent 58%),
+        radial-gradient(90% 130% at 0% -10%, rgba(255, 107, 0, 0.10), transparent 55%),
+        linear-gradient(180deg, #121212 0%, #0b0b0b 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cabecera::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 230, 118, 0.55),
+        rgba(255, 107, 0, 0.35),
+        transparent
+    );
+}
+
+.cabecera-fila {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding:
-        calc(env(safe-area-inset-top) + 14px)
-        16px
-        12px;
-    background: rgba(11, 11, 11, 0.92);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(16px);
 }
 
 .marca-bloque {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
+    min-width: 0;
+}
+
+.marca-texto {
     min-width: 0;
 }
 
 .marca-icono {
     display: grid;
     place-items: center;
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
-    border-radius: 13px;
-    background: linear-gradient(135deg, var(--acento), #00b35c 70%);
-    color: #071009;
-    font-size: 14px;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-radius: 14px;
+    background: linear-gradient(140deg, #35ffa0 0%, var(--acento) 42%, #00a854 100%);
+    color: #04120a;
+    font-size: 15px;
     font-weight: 900;
     letter-spacing: -0.06em;
-    box-shadow: 0 8px 22px rgba(0, 230, 118, 0.18);
+    box-shadow:
+        0 10px 26px rgba(0, 230, 118, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .marca-nombre {
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 800;
     line-height: 1.1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.035em;
 }
 
 .marca-lema {
     color: var(--texto-tenue);
-    font-size: 11px;
+    font-size: 10.5px;
     line-height: 1.3;
     text-transform: uppercase;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.1em;
 }
 
 .indicador-borrador {
@@ -166,6 +195,140 @@ svg {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
+}
+
+.cabecera-datos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.dato-cabecera {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    padding: 9px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
+        #141414;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+.dato-icono {
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    flex: 0 0 31px;
+    border-radius: 10px;
+    background: rgba(0, 230, 118, 0.14);
+    color: var(--acento);
+    box-shadow: inset 0 0 0 1px rgba(0, 230, 118, 0.18);
+}
+
+.dato-icono svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+}
+
+.dato-icono-xp {
+    background: rgba(255, 107, 0, 0.14);
+    color: var(--naranja);
+    box-shadow: inset 0 0 0 1px rgba(255, 107, 0, 0.22);
+}
+
+.dato-texto {
+    display: grid;
+    justify-items: center;
+    min-width: 0;
+    line-height: 1.05;
+    text-align: center;
+}
+
+.dato-texto strong {
+    overflow: hidden;
+    color: var(--texto);
+    font-size: 18px;
+    font-weight: 850;
+    letter-spacing: -0.035em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.dato-texto strong.dato-nivel {
+    color: var(--texto-secundario);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.dato-etiqueta {
+    overflow: hidden;
+    margin-top: 3px;
+    color: var(--texto-tenue);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.anillo-nivel {
+    --progreso: 0%;
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--acento) 0 var(--progreso),
+        rgba(255, 255, 255, 0.14) var(--progreso) 100%
+    );
+    box-shadow:
+        0 0 0 1px rgba(0, 230, 118, 0.2),
+        0 0 16px rgba(0, 230, 118, 0.2);
+}
+
+.anillo-nivel::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: #101010;
+}
+
+.anillo-nivel > span {
+    position: relative;
+    z-index: 1;
+    color: var(--texto);
+    font-size: 13px;
+    font-weight: 850;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+@keyframes pulso-dato {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.16); }
+    100% { transform: scale(1); }
+}
+
+.dato-cabecera.actualizado .dato-texto strong,
+.dato-cabecera.actualizado .anillo-nivel {
+    animation: pulso-dato 380ms ease-out;
 }
 
 .contenido {
@@ -191,6 +354,10 @@ svg {
     margin-bottom: 20px;
 }
 
+.cabecera-pantalla h1 {
+    text-shadow: 0 10px 34px rgba(0, 230, 118, 0.16);
+}
+
 .cabecera-pantalla > p:last-child {
     max-width: 48ch;
     margin-top: 7px;
@@ -199,25 +366,52 @@ svg {
 }
 
 .etiqueta-superior {
-    margin-bottom: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 9px;
+    padding: 4px 11px 4px 9px;
+    border: 1px solid rgba(0, 230, 118, 0.28);
+    border-radius: 999px;
+    background: rgba(0, 230, 118, 0.09);
     color: var(--acento);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.13em;
+}
+
+.etiqueta-superior::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: var(--acento);
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.9);
 }
 
 .tarjeta {
     margin-bottom: 14px;
     padding: 16px;
-    border: 1px solid var(--borde);
+    border: 1px solid rgba(255, 255, 255, 0.085);
     border-radius: var(--radio);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 60%), var(--tarjeta);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02);
+    background:
+        radial-gradient(150% 120% at 100% 0%, rgba(0, 230, 118, 0.05), transparent 55%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 55%),
+        var(--tarjeta);
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .tarjeta-fecha {
     padding: 14px;
+    border-color: rgba(0, 230, 118, 0.24);
+    background:
+        radial-gradient(130% 170% at 0% 0%, rgba(0, 230, 118, 0.12), transparent 62%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent),
+        #151515;
 }
 
 .cabecera-tarjeta {
@@ -231,6 +425,7 @@ svg {
 .campo {
     display: grid;
     gap: 7px;
+    min-width: 0;
     margin-bottom: 14px;
 }
 
@@ -288,11 +483,57 @@ select {
 }
 
 input[type="date"] {
+    position: relative;
+    display: block;
+    width: 100%;
     min-width: 0;
+    max-width: 100%;
+    min-height: 48px;
+    padding: 11px 44px 11px 13px;
+    line-height: 1.3;
+    text-align: left;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #101010;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e676' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.5' y='5' width='17' height='15' rx='3'/%3E%3Cpath d='M8 3v4M16 3v4M3.5 10h17'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 18px 18px;
+}
+
+input[type="date"]:focus {
+    background-color: #0d0d0d;
+}
+
+input[type="date"]::-webkit-date-and-time-value {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+    padding: 0 1px;
+    color: var(--texto-secundario);
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.75);
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
     cursor: pointer;
 }
 
@@ -334,13 +575,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .boton-primario {
-    background: var(--acento);
-    color: #071009;
-    box-shadow: 0 10px 24px rgba(0, 230, 118, 0.13);
+    background: linear-gradient(140deg, #3dffa4 0%, var(--acento) 45%, #00b95f 100%);
+    color: #04140a;
+    box-shadow:
+        0 14px 30px rgba(0, 230, 118, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .boton-primario:hover {
-    background: #18ef89;
+    background: linear-gradient(140deg, #5cffb5 0%, #10f184 45%, #00c968 100%);
 }
 
 .boton-secundario {
@@ -1767,8 +2010,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .pestana.activa {
-    background: rgba(0, 230, 118, 0.08);
+    background: linear-gradient(180deg, rgba(0, 230, 118, 0.18), rgba(0, 230, 118, 0.06));
     color: var(--acento);
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 230, 118, 0.2),
+        0 8px 20px rgba(0, 230, 118, 0.12);
+}
+
+.pestana.activa svg {
+    filter: drop-shadow(0 0 6px rgba(0, 230, 118, 0.55));
 }
 
 .pestana:active {

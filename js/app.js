@@ -1,5 +1,6 @@
 // Arranque de IronPulse y navegación inferior.
 import { inicializarAjustes, renderizarAjustes } from "./ajustes.js";
+import { inicializarCabecera } from "./cabecera.js";
 import {
     inicializarEntrenos,
     renderizarEntrenar,
@@ -112,6 +113,7 @@ function inicializarNavegacion() {
 
 function iniciarAplicacion() {
     inicializarInterfaz();
+    inicializarCabecera();
     inicializarAjustes();
     inicializarRespaldo();
     inicializarPWA();
