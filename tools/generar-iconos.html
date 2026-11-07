@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronPulse · Generador de iconos</title>
+    <style>
+        :root {
+            --fondo: #0b0b0b;
+            --tarjeta: #1a1a1a;
+            --borde: #303030;
+            --texto: #f5f7f5;
+            --secundario: #a6ada7;
+            --acento: #00e676;
+            color-scheme: dark;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 32px 20px 60px;
+            background: var(--fondo);
+            color: var(--texto);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.5;
+        }
+
+        main {
+            width: min(100%, 920px);
+            margin: 0 auto;
+        }
+
+        h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.03em; }
+        .intro { margin: 0 0 24px; color: var(--secundario); font-size: 14px; }
+        .aviso { margin: 0 0 24px; color: #efc5a8; font-size: 12px; }
+
+        .rejilla {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+        }
+
+        .tarjeta {
+            padding: 16px;
+            border: 1px solid var(--borde);
+            border-radius: 16px;
+            background: var(--tarjeta);
+        }
+
+        .tarjeta h2 { margin: 0 0 2px; font-size: 15px; }
+        .tarjeta p { margin: 0 0 12px; color: var(--secundario); font-size: 11px; }
+
+        .vista {
+            display: grid;
+            place-items: center;
+            min-height: 190px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: #111111;
+        }
+
+        .vista canvas {
+            display: block;
+            width: 160px;
+            height: 160px;
+            border-radius: 12px;
+        }
+
+        .vista canvas.maskable {
+            border-radius: 50%;
+        }
+
+        button {
+            width: 100%;
+            min-height: 44px;
+            padding: 10px 14px;
+            border: 1px solid #3b3b3b;
+            border-radius: 10px;
+            background: #222222;
+            color: var(--texto);
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover { background: #2a2a2a; border-color: var(--acento); }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Generador de iconos</h1>
+        <p class="intro">Genera los PNG de IronPulse con el diseño de la marca. Descarga cada archivo en la carpeta <code>icons/</code>.</p>
+        <p class="aviso">Herramienta de desarrollo: no forma parte de la aplicación ni se cachea en el service worker.</p>
+        <div id="rejilla" class="rejilla"></div>
+    </main>
+
+    <script>
+        const VERDE = "#00e676";
+        const NARANJA = "#ff6b00";
+        const NEGRO = "#071009";
+        const FONDO = "#0b0b0b";
+
+        const ICONOS = [
+            { archivo: "icon-192.png", tamano: 192, tipo: "normal", titulo: "Icono 192", detalle: "Uso general · 192 × 192 px" },
+            { archivo: "icon-512.png", tamano: 512, tipo: "normal", titulo: "Icono 512", detalle: "Uso general · 512 × 512 px" },
+            { archivo: "icon-maskable-512.png", tamano: 512, tipo: "maskable", titulo: "Icono maskable", detalle: "Android adaptativo · 512 × 512 px" },
+            { archivo: "apple-touch-icon.png", tamano: 180, tipo: "normal", titulo: "Apple touch icon", detalle: "Pantalla de inicio de iOS · 180 × 180 px" }
+        ];
+
+        function crearFormaRedondeada(contexto, x, y, ancho, alto, radio) {
+            const diametro = radio * 2;
+            contexto.beginPath();
+            contexto.moveTo(x + radio, y);
+            contexto.arcTo(x + ancho, y, x + ancho, y + alto, radio);
+            contexto.arcTo(x + ancho, y + alto, x, y + alto, radio);
+            contexto.arcTo(x, y + alto, x, y, radio);
+            contexto.arcTo(x, y, x + ancho, y, radio);
+            contexto.closePath();
+            return diametro;
+        }
+
+        function dibujarMonograma(contexto, tamano) {
+            contexto.fillStyle = NEGRO;
+            contexto.font = `bold ${Math.round(tamano * 0.44)}px "Segoe UI", system-ui, sans-serif`;
+            contexto.textAlign = "center";
+            contexto.textBaseline = "middle";
+            contexto.fillText("IP", tamano / 2, tamano / 2 + tamano * 0.015);
+        }
+
+        function dibujarIcono(canvas, tipo) {
+            const tamano = canvas.width;
+            const contexto = canvas.getContext("2d");
+
+            contexto.clearRect(0, 0, tamano, tamano);
+
+            if (tipo === "maskable") {
+                contexto.fillStyle = FONDO;
+                contexto.fillRect(0, 0, tamano, tamano);
+
+                const margen = tamano * 0.2;
+                const lado = tamano - margen * 2;
+                crearFormaRedondeada(contexto, margen, margen, lado, lado, lado * 0.23);
+                contexto.fillStyle = VERDE;
+                contexto.fill();
+            } else {
+                contexto.fillStyle = VERDE;
+                contexto.fillRect(0, 0, tamano, tamano);
+                contexto.fillStyle = NARANJA;
+                contexto.fillRect(0, Math.round(tamano * 0.86), tamano, Math.round(tamano * 0.14));
+            }
+
+            dibujarMonograma(contexto, tamano);
+        }
+
+        function descargar(canvas, archivo) {
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    return;
+                }
+
+                const url = URL.createObjectURL(blob);
+                const enlace = document.createElement("a");
+                enlace.href = url;
+                enlace.download = archivo;
+                document.body.appendChild(enlace);
+                enlace.click();
+                enlace.remove();
+                window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+            }, "image/png");
+        }
+
+        const rejilla = document.getElementById("rejilla");
+
+        ICONOS.forEach((icono) => {
+            const tarjeta = document.createElement("article");
+            tarjeta.className = "tarjeta";
+
+            const titulo = document.createElement("h2");
+            titulo.textContent = icono.titulo;
+
+            const detalle = document.createElement("p");
+            detalle.textContent = icono.detalle;
+
+            const vista = document.createElement("div");
+            vista.className = "vista";
+
+            const canvas = document.createElement("canvas");
+            canvas.width = icono.tamano;
+            canvas.height = icono.tamano;
+            canvas.className = icono.tipo === "maskable" ? "maskable" : "";
+            canvas.setAttribute("role", "img");
+            canvas.setAttribute("aria-label", `${icono.titulo} de IronPulse`);
+            dibujarIcono(canvas, icono.tipo);
+            vista.appendChild(canvas);
+
+            const boton = document.createElement("button");
+            boton.type = "button";
+            boton.textContent = `Descargar ${icono.archivo}`;
+            boton.addEventListener("click", () => descargar(canvas, icono.archivo));
+
+            tarjeta.append(titulo, detalle, vista, boton);
+            rejilla.appendChild(tarjeta);
+        });
+    </script>
+</body>
+</html>

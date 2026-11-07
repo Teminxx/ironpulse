@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0b0b">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="IronPulse: registra tus entrenamientos y sigue tu progreso de fuerza.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="IronPulse">
+    <title>IronPulse</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class="aplicacion">
+        <header class="cabecera">
+            <div class="marca-bloque">
+                <span class="marca-icono" aria-hidden="true">IP</span>
+                <div>
+                    <p class="marca-nombre">IronPulse</p>
+                    <p class="marca-lema">Fuerza con progreso</p>
+                </div>
+            </div>
+            <span id="indicador-borrador" class="indicador-borrador" hidden>Borrador guardado</span>
+        </header>
+
+        <main class="contenido">
+            <section id="panel-entrenar" class="panel" role="tabpanel" aria-labelledby="tab-entrenar" tabindex="0">
+                <div class="cabecera-pantalla">
+                    <p class="etiqueta-superior">Registro diario</p>
+                    <h1>Entrenar</h1>
+                    <p>Apunta cada serie para que la app pueda calcular tu fuerza real.</p>
+                </div>
+
+                <div id="aviso-edicion" class="aviso-edicion" hidden>
+                    <div>
+                        <strong>Edición activa</strong>
+                        <p id="texto-edicion"></p>
+                    </div>
+                    <button id="btn-cancelar-edicion" class="boton boton-texto" type="button">Cancelar</button>
+                </div>
+
+                <section class="tarjeta tarjeta-fecha" aria-labelledby="titulo-fecha-entreno">
+                    <div class="campo">
+                        <label for="fecha-entrenamiento" id="titulo-fecha-entreno">Fecha del entrenamiento</label>
+                        <input id="fecha-entrenamiento" type="date" autocomplete="off">
+                    </div>
+                </section>
+
+                <div id="lista-entrenamiento" class="lista-entrenamiento"></div>
+
+                <div id="estado-vacio-entreno" class="estado-vacio">
+                    <span class="estado-vacio-icono" aria-hidden="true">+</span>
+                    <h2>Tu sesión empieza aquí</h2>
+                    <p>Añade un ejercicio y registra la primera serie.</p>
+                </div>
+
+                <div class="acciones-entrenamiento">
+                    <button id="btn-agregar-ejercicio" class="boton boton-secundario boton-ancho" type="button">Añadir ejercicio</button>
+                    <button id="btn-guardar-entrenamiento" class="boton boton-primario boton-ancho" type="button">Guardar entrenamiento</button>
+                    <button id="btn-descartar-borrador" class="boton boton-texto boton-ancho" type="button" hidden>Descartar borrador</button>
+                </div>
+
+                <p class="nota-pie">El borrador se guarda automáticamente en este dispositivo.</p>
+            </section>
+
+            <section id="panel-historial" class="panel" role="tabpanel" aria-labelledby="tab-historial" tabindex="0" hidden>
+                <div class="cabecera-pantalla">
+                    <p class="etiqueta-superior">Tus sesiones</p>
+                    <h1>Historial</h1>
+                    <p id="resumen-historial">Todavía no hay entrenamientos.</p>
+                </div>
+                <div id="lista-historial" class="lista-historial"></div>
+            </section>
+
+            <section id="panel-rangos" class="panel" role="tabpanel" aria-labelledby="tab-rangos" tabindex="0" hidden>
+                <div class="cabecera-pantalla">
+                    <p class="etiqueta-superior">Nivel de fuerza</p>
+                    <h1>Rangos</h1>
+                    <p>Compara tu fuerza estimada con tu peso corporal. La escala va de Hierro a Radiante.</p>
+                </div>
+                <div id="contenido-rangos" class="contenido-rangos"></div>
+            </section>
+
+            <section id="panel-progreso" class="panel" role="tabpanel" aria-labelledby="tab-progreso" tabindex="0" hidden>
+                <div class="cabecera-pantalla">
+                    <p class="etiqueta-superior">Evolución</p>
+                    <h1>Progreso</h1>
+                    <p>Consulta cómo cambian tu fuerza y tu peso corporal.</p>
+                </div>
+                <div id="contenido-progreso" class="contenido-progreso"></div>
+            </section>
+
+            <section id="panel-ajustes" class="panel" role="tabpanel" aria-labelledby="tab-ajustes" tabindex="0" hidden>
+                <div class="cabecera-pantalla">
+                    <p class="etiqueta-superior">Configuración</p>
+                    <h1>Ajustes</h1>
+                    <p>Completa tu perfil para calcular tus rangos de fuerza.</p>
+                </div>
+
+                <section class="tarjeta" aria-labelledby="titulo-perfil">
+                    <div class="cabecera-tarjeta">
+                        <h2 id="titulo-perfil">Perfil</h2>
+                    </div>
+                    <form id="form-ajustes" novalidate>
+                        <fieldset class="grupo-opciones">
+                            <legend>Sexo</legend>
+                            <label class="opcion-radio">
+                                <input type="radio" name="sexo" value="masculino">
+                                <span>Masculino</span>
+                            </label>
+                            <label class="opcion-radio">
+                                <input type="radio" name="sexo" value="femenino">
+                                <span>Femenino</span>
+                            </label>
+                            <label class="opcion-radio">
+                                <input type="radio" name="sexo" value="">
+                                <span>Sin especificar</span>
+                            </label>
+                        </fieldset>
+
+                        <div class="campo">
+                            <label for="peso-corporal">Peso corporal (kg)</label>
+                            <input id="peso-corporal" type="text" inputmode="decimal" autocomplete="off" placeholder="Ejemplo: 75,5">
+                            <p class="ayuda-campo">Entre 30 y 300 kg. Se usa para calcular los rangos de fuerza.</p>
+                        </div>
+
+                        <div class="campo">
+                            <label for="objetivo-semanal">Entrenos por semana</label>
+                            <select id="objetivo-semanal">
+                                <option value="1">1 entrenamiento</option>
+                                <option value="2">2 entrenamientos</option>
+                                <option value="3">3 entrenamientos</option>
+                                <option value="4">4 entrenamientos</option>
+                                <option value="5">5 entrenamientos</option>
+                                <option value="6">6 entrenamientos</option>
+                                <option value="7">7 entrenamientos</option>
+                            </select>
+                            <p class="ayuda-campo">Objetivo semanal para calcular la racha.</p>
+                        </div>
+
+                        <button class="boton boton-primario boton-ancho" type="submit">Guardar ajustes</button>
+                    </form>
+                </section>
+
+                <section class="tarjeta" aria-labelledby="titulo-historial-peso">
+                    <div class="cabecera-tarjeta">
+                        <h2 id="titulo-historial-peso">Historial de peso</h2>
+                    </div>
+                    <div id="lista-historial-peso" class="lista-compacta"></div>
+                </section>
+
+                <section class="tarjeta" aria-labelledby="titulo-ejercicios-propios">
+                    <div class="cabecera-tarjeta">
+                        <h2 id="titulo-ejercicios-propios">Ejercicios propios</h2>
+                    </div>
+                    <p class="texto-secundario">Puedes registrarlos, pero no puntúan en los rangos.</p>
+
+                    <form id="form-ejercicio-propio" class="formulario-ejercicio-propio" novalidate>
+                        <div class="campo">
+                            <label for="nombre-ejercicio-propio">Nombre</label>
+                            <input id="nombre-ejercicio-propio" type="text" maxlength="50" autocomplete="off" placeholder="Ejemplo: Remo en máquina">
+                        </div>
+                        <div class="campo">
+                            <label for="grupo-ejercicio-propio">Grupo muscular</label>
+                            <select id="grupo-ejercicio-propio">
+                                <option value="Pecho">Pecho</option>
+                                <option value="Espalda">Espalda</option>
+                                <option value="Piernas">Piernas</option>
+                                <option value="Hombros">Hombros</option>
+                                <option value="Bíceps">Bíceps</option>
+                                <option value="Tríceps">Tríceps</option>
+                            </select>
+                        </div>
+                        <div class="acciones-formulario">
+                            <button id="btn-guardar-ejercicio-propio" class="boton boton-secundario" type="submit">Crear ejercicio</button>
+                            <button id="btn-cancelar-ejercicio-propio" class="boton boton-texto" type="button" hidden>Cancelar edición</button>
+                        </div>
+                    </form>
+
+                    <div id="lista-ejercicios-propios" class="lista-ejercicios-propios"></div>
+                </section>
+
+                <section class="tarjeta" aria-labelledby="titulo-copia-seguridad">
+                    <div class="cabecera-tarjeta">
+                        <h2 id="titulo-copia-seguridad">Copia de seguridad</h2>
+                    </div>
+                    <p class="texto-secundario">Tus datos solo están en este dispositivo. Exporta un archivo para guardarlos o pasarlos a otro dispositivo.</p>
+                    <div class="acciones-copia">
+                        <button id="btn-exportar-copia" class="boton boton-secundario" type="button">Exportar copia</button>
+                        <button id="btn-importar-copia" class="boton boton-secundario" type="button">Importar copia</button>
+                    </div>
+                    <input id="archivo-copia" type="file" accept="application/json,.json" hidden>
+                    <p class="nota-copia">Al importar se reemplazarán todos los datos actuales. El archivo incluye entrenos, ajustes, ejercicios propios, borrador e historial de peso.</p>
+                </section>
+
+                <section class="tarjeta" aria-labelledby="titulo-aplicacion">
+                    <div class="cabecera-tarjeta">
+                        <h2 id="titulo-aplicacion">Aplicación</h2>
+                    </div>
+                    <p id="estado-pwa" class="texto-secundario estado-pwa" role="status" aria-live="polite">Puedes instalar IronPulse en tu pantalla de inicio para abrirla como una app.</p>
+                    <button id="btn-instalar-pwa" class="boton boton-secundario boton-ancho" type="button" hidden>Instalar IronPulse</button>
+                </section>
+            </section>
+        </main>
+
+        <nav class="navegacion-inferior" role="tablist" aria-label="Navegación principal">
+            <button id="tab-entrenar" class="pestana activa" type="button" role="tab" aria-selected="true" aria-controls="panel-entrenar" data-panel="entrenar">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M6.5 7v10M17.5 7v10M3 10v4M21 10v4M6.5 12h11"/>
+                </svg>
+                <span>Entrenar</span>
+            </button>
+            <button id="tab-historial" class="pestana" type="button" role="tab" aria-selected="false" aria-controls="panel-historial" data-panel="historial" tabindex="-1">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="12" r="8"></circle>
+                    <path d="M12 7.5V12l3 2"></path>
+                </svg>
+                <span>Historial</span>
+            </button>
+            <button id="tab-rangos" class="pestana" type="button" role="tab" aria-selected="false" aria-controls="panel-rangos" data-panel="rangos" tabindex="-1">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"></path>
+                    <path d="M8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 13v4M8.5 20h7"></path>
+                </svg>
+                <span>Rangos</span>
+            </button>
+            <button id="tab-progreso" class="pestana" type="button" role="tab" aria-selected="false" aria-controls="panel-progreso" data-panel="progreso" tabindex="-1">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M4 19V5M4 19h16M7 15l4-5 3 3 5-7"></path>
+                </svg>
+                <span>Progreso</span>
+            </button>
+            <button id="tab-ajustes" class="pestana" type="button" role="tab" aria-selected="false" aria-controls="panel-ajustes" data-panel="ajustes" tabindex="-1">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
+                </svg>
+                <span>Ajustes</span>
+            </button>
+        </nav>
+    </div>
+
+    <dialog id="dialogo-ejercicio" class="hoja" aria-labelledby="titulo-selector-ejercicio">
+        <div class="hoja-contenido">
+            <header class="hoja-cabecera">
+                <div>
+                    <p class="etiqueta-superior">Biblioteca</p>
+                    <h2 id="titulo-selector-ejercicio">Añadir ejercicio</h2>
+                </div>
+                <button id="btn-cerrar-selector" class="boton-icono" type="button" aria-label="Cerrar selector de ejercicios">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+                </button>
+            </header>
+
+            <div class="selector-controles">
+                <div class="campo">
+                    <label for="buscador-ejercicio">Buscar ejercicio</label>
+                    <input id="buscador-ejercicio" type="search" autocomplete="off" placeholder="Nombre del ejercicio">
+                </div>
+                <div id="filtros-grupo" class="filtros-grupo" role="group" aria-label="Filtrar por grupo muscular"></div>
+            </div>
+
+            <div class="selector-cabecera-lista">
+                <span id="contador-selector">0 ejercicios</span>
+                <span class="texto-secundario">Todos los botones añaden un ejercicio</span>
+            </div>
+            <div id="lista-selector-ejercicios" class="lista-selector-ejercicios"></div>
+        </div>
+    </dialog>
+
+    <dialog id="dialogo-confirmar" class="dialogo-confirmar" aria-labelledby="confirmar-titulo" aria-describedby="confirmar-mensaje">
+        <div class="confirmar-contenido">
+            <span class="confirmar-icono" aria-hidden="true">!</span>
+            <h2 id="confirmar-titulo">Confirmar acción</h2>
+            <p id="confirmar-mensaje"></p>
+            <div class="confirmar-acciones">
+                <button id="btn-confirmar-cancelar" class="boton boton-secundario" type="button">Cancelar</button>
+                <button id="btn-confirmar-aceptar" class="boton boton-peligro" type="button">Confirmar</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="dialogo-resumen" class="dialogo-resumen" aria-labelledby="resumen-titulo">
+        <div class="resumen-contenido">
+            <header class="resumen-cabecera">
+                <div>
+                    <p class="etiqueta-superior">Sesión completada</p>
+                    <h2 id="resumen-titulo">Resumen del entrenamiento</h2>
+                </div>
+                <button id="btn-cerrar-resumen" class="boton-icono" type="button" aria-label="Cerrar resumen">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+                </button>
+            </header>
+            <div id="contenido-resumen" class="contenido-resumen"></div>
+        </div>
+    </dialog>
+
+    <div id="zona-avisos" class="zona-avisos" aria-live="polite" aria-atomic="false"></div>
+
+    <script type="module" src="./js/app.js"></script>
+</body>
+</html>
