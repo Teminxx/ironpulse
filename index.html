@@ -21,49 +21,46 @@
         <header class="cabecera">
             <div class="cabecera-fila">
                 <div class="marca-bloque">
-                    <span class="marca-icono" aria-hidden="true">IP</span>
-                    <div class="marca-texto">
-                        <p class="marca-nombre">IronPulse</p>
-                        <p class="marca-lema">Fuerza con progreso</p>
-                    </div>
+                    <span class="marca-icono-marco">
+                        <span class="marca-icono" aria-hidden="true">IP</span>
+                        <span id="indicador-borrador" class="indicador-borrador" hidden>Borrador guardado</span>
+                    </span>
+                    <span class="marca-texto">
+                        <span class="marca-nombre">IronPulse</span>
+                        <span class="marca-lema">Fuerza con progreso</span>
+                    </span>
                 </div>
-                <span id="indicador-borrador" class="indicador-borrador" hidden>Borrador guardado</span>
+
+                <div class="cabecera-datos">
+                    <span class="dato-pill" id="dato-racha" role="img" aria-label="Racha: 0 días">
+                        <span class="dato-icono" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false">
+                                <path d="M12 2.5c.8 3.4-2.3 4.9-2.3 7.7a2.3 2.3 0 0 0 4.6 0c0-1-.4-1.9-1-2.7 2.9 1.3 4.7 4.1 4.7 7.1a6 6 0 0 1-12 0c0-4 3.4-6.8 6-12.1Z"/>
+                            </svg>
+                        </span>
+                        <strong id="cabecera-racha">0</strong>
+                        <span class="dato-unidad" aria-hidden="true">d</span>
+                    </span>
+
+                    <span class="dato-pill" id="dato-xp" role="img" aria-label="Experiencia: 0 XP">
+                        <span class="dato-icono dato-icono-xp" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false">
+                                <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>
+                            </svg>
+                        </span>
+                        <strong id="cabecera-xp">0</strong>
+                        <span class="dato-unidad" aria-hidden="true">XP</span>
+                    </span>
+
+                    <span class="dato-pill" id="dato-nivel" role="img" aria-label="Nivel 1">
+                        <span class="dato-unidad dato-unidad-nivel" aria-hidden="true">Nv</span>
+                        <strong id="cabecera-nivel">1</strong>
+                    </span>
+                </div>
             </div>
 
-            <div class="cabecera-datos">
-                <div class="dato-cabecera" id="dato-racha" role="img" aria-label="Racha: 0 días">
-                    <span class="dato-icono dato-icono-racha" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" focusable="false">
-                            <path d="M12 2.5c.8 3.4-2.3 4.9-2.3 7.7a2.3 2.3 0 0 0 4.6 0c0-1-.4-1.9-1-2.7 2.9 1.3 4.7 4.1 4.7 7.1a6 6 0 0 1-12 0c0-4 3.4-6.8 6-12.1Z"/>
-                        </svg>
-                    </span>
-                    <span class="dato-texto" aria-hidden="true">
-                        <strong id="cabecera-racha">0</strong>
-                        <span class="dato-etiqueta">días</span>
-                    </span>
-                </div>
-
-                <div class="dato-cabecera" id="dato-xp" role="img" aria-label="Experiencia: 0 XP">
-                    <span class="dato-icono dato-icono-xp" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" focusable="false">
-                            <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>
-                        </svg>
-                    </span>
-                    <span class="dato-texto" aria-hidden="true">
-                        <strong id="cabecera-xp">0</strong>
-                        <span class="dato-etiqueta">XP</span>
-                    </span>
-                </div>
-
-                <div class="dato-cabecera" id="dato-nivel" role="img" aria-label="Nivel 1">
-                    <span class="anillo-nivel" id="anillo-nivel" aria-hidden="true">
-                        <span id="cabecera-nivel">1</span>
-                    </span>
-                    <span class="dato-texto" aria-hidden="true">
-                        <strong class="dato-nivel">Nivel</strong>
-                        <span class="dato-etiqueta" id="cabecera-nivel-detalle">0%</span>
-                    </span>
-                </div>
+            <div class="cabecera-progreso" aria-hidden="true">
+                <span id="cabecera-progreso-nivel"></span>
             </div>
         </header>
 

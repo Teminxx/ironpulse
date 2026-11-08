@@ -1,5 +1,7 @@
 // Service worker de IronPulse. Guarda la interfaz para que la app abra sin conexión.
-const CACHE_ACTUAL = "ironpulse-cache-v4";
+// La caché se rellena siempre desde la red (cache: "reload") para no heredar
+// versiones antiguas que GitHub Pages pueda tener todavía en su caché HTTP.
+const CACHE_ACTUAL = "ironpulse-cache-v5";
 
 const RECURSOS = [
     "./",
@@ -31,7 +33,14 @@ const RECURSOS = [
 self.addEventListener("install", (evento) => {
     evento.waitUntil(
         caches.open(CACHE_ACTUAL)
-            .then((cache) => cache.addAll(RECURSOS))
+            .then((cache) => {
+                const peticiones = RECURSOS.map((recurso) => new Request(
+                    new URL(recurso, self.location.href).href,
+                    { cache: "reload" }
+                ));
+
+                return cache.addAll(peticiones);
+            })
             .then(() => self.skipWaiting())
     );
 });
@@ -54,32 +63,27 @@ self.addEventListener("message", (evento) => {
     }
 });
 
-async function responderNavegacion(request) {
+async function responderNavegacion() {
     const cache = await caches.open(CACHE_ACTUAL);
-    const url = new URL(request.url);
-    const esPantallaPrincipal = url.pathname === "/" || url.pathname.endsWith("/index.html");
+    const guardado = (await cache.match("./index.html")) || (await cache.match("./"));
+
+    if (guardado) {
+        return guardado;
+    }
 
     try {
-        const respuesta = await fetch(request);
+        const respuesta = await fetch("./index.html", { cache: "no-store" });
 
         if (respuesta.ok) {
-            if (esPantallaPrincipal) {
-                await cache.put("./index.html", respuesta.clone());
-            }
-
-            return respuesta;
+            await cache.put("./index.html", respuesta.clone());
         }
 
-        return (await cache.match("./index.html"))
-            || (await cache.match("./"))
-            || respuesta;
+        return respuesta;
     } catch (error) {
-        return (await cache.match("./index.html"))
-            || (await cache.match("./"))
-            || new Response("IronPulse no está disponible sin conexión.", {
-                status: 503,
-                headers: { "Content-Type": "text/plain; charset=utf-8" }
-            });
+        return new Response("IronPulse no está disponible sin conexión.", {
+            status: 503,
+            headers: { "Content-Type": "text/plain; charset=utf-8" }
+        });
     }
 }
 
@@ -88,13 +92,6 @@ async function responderRecurso(request) {
     const guardado = await cache.match(request);
 
     if (guardado) {
-        fetch(request)
-            .then((respuesta) => {
-                if (respuesta.ok) {
-                    cache.put(request, respuesta);
-                }
-            })
-            .catch(() => {});
         return guardado;
     }
 
@@ -102,7 +99,7 @@ async function responderRecurso(request) {
         const respuesta = await fetch(request);
 
         if (respuesta.ok) {
-            cache.put(request, respuesta.clone());
+            await cache.put(request, respuesta.clone());
         }
 
         return respuesta;
@@ -125,7 +122,7 @@ self.addEventListener("fetch", (evento) => {
     }
 
     if (request.mode === "navigate") {
-        evento.respondWith(responderNavegacion(request));
+        evento.respondWith(responderNavegacion());
         return;
     }
 

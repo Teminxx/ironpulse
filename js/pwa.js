@@ -38,10 +38,35 @@ function registrarServiceWorker() {
         return;
     }
 
+    // Si esta página ya estaba controlada, una nueva versión del service worker
+    // recarga una sola vez para evitar mezclar HTML nuevo con estilos antiguos.
+    const yaControlada = Boolean(navigator.serviceWorker.controller);
+    let recargando = false;
+
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (!yaControlada || recargando) {
+            return;
+        }
+
+        recargando = true;
+        window.location.reload();
+    });
+
     navigator.serviceWorker.register(new URL("../sw.js", import.meta.url))
         .catch((error) => {
             console.warn("No se pudo activar el modo sin conexión.", error);
         });
+
+    // Al volver a la app instalada, busca actualizaciones sin esperar a navegar.
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState !== "visible") {
+            return;
+        }
+
+        navigator.serviceWorker.getRegistration()
+            .then((registro) => registro?.update())
+            .catch(() => {});
+    });
 }
 
 function configurarInstalacion() {

@@ -10,7 +10,7 @@ const temporizadores = new WeakMap();
 let inicializado = false;
 
 function animar(elemento) {
-    const bloque = elemento.closest(".dato-cabecera");
+    const bloque = elemento.closest(".dato-pill");
 
     if (!bloque) {
         return;
@@ -61,12 +61,11 @@ export function actualizarCabecera() {
     escribir("cabecera-racha", formateador.format(dias));
     escribir("cabecera-xp", formateador.format(resumen.total));
     escribir("cabecera-nivel", String(resumen.nivel.nivel));
-    escribir("cabecera-nivel-detalle", `${porcentaje}%`);
 
-    const anillo = document.getElementById("anillo-nivel");
+    const barra = document.getElementById("cabecera-progreso-nivel");
 
-    if (anillo) {
-        anillo.style.setProperty("--progreso", `${porcentaje}%`);
+    if (barra) {
+        barra.style.width = `${porcentaje}%`;
     }
 
     actualizarEtiqueta("dato-racha", `Racha: ${dias} ${dias === 1 ? "día" : "días"}`);

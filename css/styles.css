@@ -105,16 +105,14 @@ svg {
 .cabecera {
     position: relative;
     z-index: 20;
-    display: grid;
-    gap: 13px;
     padding:
-        calc(env(safe-area-inset-top) + 15px)
-        16px
-        14px;
+        calc(env(safe-area-inset-top) + 7px)
+        14px
+        7px;
     background:
-        radial-gradient(120% 150% at 88% -25%, rgba(0, 230, 118, 0.18), transparent 58%),
-        radial-gradient(90% 130% at 0% -10%, rgba(255, 107, 0, 0.10), transparent 55%),
-        linear-gradient(180deg, #121212 0%, #0b0b0b 100%);
+        radial-gradient(120% 190% at 88% -45%, rgba(0, 230, 118, 0.16), transparent 62%),
+        radial-gradient(90% 160% at 0% -20%, rgba(255, 107, 0, 0.08), transparent 58%),
+        linear-gradient(180deg, #131313 0%, #0b0b0b 100%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -138,181 +136,109 @@ svg {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 8px;
+    min-height: 36px;
 }
 
 .marca-bloque {
     display: flex;
     align-items: center;
-    gap: 11px;
+    gap: 8px;
     min-width: 0;
 }
 
-.marca-texto {
-    min-width: 0;
+.marca-icono-marco {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 34px;
 }
 
 .marca-icono {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    flex: 0 0 44px;
-    border-radius: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
     background: linear-gradient(140deg, #35ffa0 0%, var(--acento) 42%, #00a854 100%);
     color: #04120a;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 900;
     letter-spacing: -0.06em;
     box-shadow:
-        0 10px 26px rgba(0, 230, 118, 0.26),
+        0 6px 16px rgba(0, 230, 118, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
+.marca-texto {
+    display: grid;
+    min-width: 0;
+    line-height: 1.05;
+}
+
 .marca-nombre {
-    font-size: 19px;
+    overflow: hidden;
+    font-size: 16px;
     font-weight: 800;
-    line-height: 1.1;
     letter-spacing: -0.035em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .marca-lema {
+    overflow: hidden;
     color: var(--texto-tenue);
-    font-size: 10.5px;
-    line-height: 1.3;
+    font-size: 8px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
 }
 
 .indicador-borrador {
-    flex: 0 0 auto;
-    padding: 5px 9px;
-    border: 1px solid rgba(0, 230, 118, 0.34);
-    border-radius: 999px;
-    background: rgba(0, 230, 118, 0.09);
-    color: var(--acento);
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    border: 2px solid #0e0e0e;
+    border-radius: 50%;
+    background: var(--acento);
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.9);
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+}
+
+.indicador-borrador[hidden] {
+    display: none;
 }
 
 .cabecera-datos {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-}
-
-.dato-cabecera {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
+    gap: 5px;
     min-width: 0;
-    padding: 9px 8px;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 14px;
+}
+
+.dato-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    min-width: 0;
+    height: 30px;
+    padding: 0 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
         #141414;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.06),
-        0 6px 18px rgba(0, 0, 0, 0.22);
-}
-
-.dato-icono {
-    display: grid;
-    place-items: center;
-    width: 31px;
-    height: 31px;
-    flex: 0 0 31px;
-    border-radius: 10px;
-    background: rgba(0, 230, 118, 0.14);
-    color: var(--acento);
-    box-shadow: inset 0 0 0 1px rgba(0, 230, 118, 0.18);
-}
-
-.dato-icono svg {
-    width: 17px;
-    height: 17px;
-    fill: currentColor;
-}
-
-.dato-icono-xp {
-    background: rgba(255, 107, 0, 0.14);
-    color: var(--naranja);
-    box-shadow: inset 0 0 0 1px rgba(255, 107, 0, 0.22);
-}
-
-.dato-texto {
-    display: grid;
-    justify-items: center;
-    min-width: 0;
-    line-height: 1.05;
-    text-align: center;
-}
-
-.dato-texto strong {
-    overflow: hidden;
-    color: var(--texto);
-    font-size: 18px;
-    font-weight: 850;
-    letter-spacing: -0.035em;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-}
-
-.dato-texto strong.dato-nivel {
-    color: var(--texto-secundario);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.dato-etiqueta {
-    overflow: hidden;
-    margin-top: 3px;
-    color: var(--texto-tenue);
-    font-size: 9px;
-    font-weight: 750;
-    letter-spacing: 0.07em;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
     white-space: nowrap;
 }
 
-.anillo-nivel {
-    --progreso: 0%;
-    position: relative;
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    flex: 0 0 36px;
-    border-radius: 50%;
-    background: conic-gradient(
-        var(--acento) 0 var(--progreso),
-        rgba(255, 255, 255, 0.14) var(--progreso) 100%
-    );
-    box-shadow:
-        0 0 0 1px rgba(0, 230, 118, 0.2),
-        0 0 16px rgba(0, 230, 118, 0.2);
-}
-
-.anillo-nivel::before {
-    content: "";
-    position: absolute;
-    inset: 3px;
-    border-radius: 50%;
-    background: #101010;
-}
-
-.anillo-nivel > span {
-    position: relative;
-    z-index: 1;
+.dato-pill strong {
     color: var(--texto);
     font-size: 13px;
     font-weight: 850;
@@ -320,15 +246,80 @@ svg {
     font-variant-numeric: tabular-nums;
 }
 
+.dato-icono {
+    display: grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 14px;
+    color: var(--acento);
+}
+
+.dato-icono svg {
+    width: 13px;
+    height: 13px;
+    fill: currentColor;
+}
+
+.dato-icono-xp {
+    color: var(--naranja);
+}
+
+.dato-unidad {
+    color: var(--texto-tenue);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.dato-unidad-nivel {
+    color: var(--texto-secundario);
+}
+
+.cabecera-progreso {
+    overflow: hidden;
+    height: 3px;
+    margin-top: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.cabecera-progreso > span {
+    display: block;
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--acento), #7dffc0);
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.6);
+    transition: width 320ms ease;
+}
+
 @keyframes pulso-dato {
     0% { transform: scale(1); }
-    45% { transform: scale(1.16); }
+    45% { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
 
-.dato-cabecera.actualizado .dato-texto strong,
-.dato-cabecera.actualizado .anillo-nivel {
-    animation: pulso-dato 380ms ease-out;
+.dato-pill.actualizado {
+    animation: pulso-dato 320ms ease-out;
+}
+
+@media (max-width: 380px) {
+    .marca-lema {
+        display: none;
+    }
+}
+
+@media (max-width: 340px) {
+    .marca-texto {
+        display: none;
+    }
+
+    .cabecera {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }
 
 .contenido {
